@@ -1,0 +1,353 @@
+{
+  "sites": {
+    "S1": {
+      "site_name": "S1 Bus Depot North",
+      "type": "bus_depot",
+      "departures_total": 32,
+      "baseline_failed_departures": 4,
+      "autonomous_failed_departures": 0,
+      "baseline_energy_cost": 668.0,
+      "autonomous_energy_cost": 482.0,
+      "baseline_peak_kw": 1080.0,
+      "autonomous_peak_kw": 840.0,
+      "staff_minutes_baseline": 169,
+      "staff_minutes_autonomous": 0,
+      "key_interventions": [
+        "Predictive telemetry analysis: Fan RPM degradation trend flagged 18h prior",
+        "Autonomous thermal load reroute across cabinets C1-1 and C1-2 (720 kW available)",
+        "Slack-time priority dispatch: Earliest departures (B18, B20, B04) charged first",
+        "Eliminated 9 manual vehicle moves/replugs in freezing conditions"
+      ],
+      "sample_departures": [
+        {
+          "vehicle_id": "B10",
+          "depart_ts": "2026-11-13 05:10",
+          "req_soc": 90,
+          "base_soc": 100.0,
+          "auto_soc": 96.5,
+          "status": "ON_TIME"
+        },
+        {
+          "vehicle_id": "B11",
+          "depart_ts": "2026-11-13 05:15",
+          "req_soc": 90,
+          "base_soc": 100.0,
+          "auto_soc": 96.0,
+          "status": "ON_TIME"
+        },
+        {
+          "vehicle_id": "B23",
+          "depart_ts": "2026-11-13 05:20",
+          "req_soc": 90,
+          "base_soc": 100.0,
+          "auto_soc": 95.8,
+          "status": "ON_TIME"
+        },
+        {
+          "vehicle_id": "B24",
+          "depart_ts": "2026-11-13 05:25",
+          "req_soc": 90,
+          "base_soc": 100.0,
+          "auto_soc": 95.5,
+          "status": "ON_TIME"
+        },
+        {
+          "vehicle_id": "B01",
+          "depart_ts": "2026-11-13 05:35",
+          "req_soc": 90,
+          "base_soc": 100.0,
+          "auto_soc": 95.0,
+          "status": "ON_TIME"
+        },
+        {
+          "vehicle_id": "B06",
+          "depart_ts": "2026-11-13 05:35",
+          "req_soc": 90,
+          "base_soc": 100.0,
+          "auto_soc": 95.0,
+          "status": "ON_TIME"
+        },
+        {
+          "vehicle_id": "B18",
+          "depart_ts": "2026-11-13 05:35",
+          "req_soc": 90,
+          "base_soc": 8.0,
+          "auto_soc": 92.4,
+          "status": "SAVED_BY_AUTONOMY"
+        },
+        {
+          "vehicle_id": "B20",
+          "depart_ts": "2026-11-13 05:35",
+          "req_soc": 90,
+          "base_soc": 8.0,
+          "auto_soc": 92.1,
+          "status": "SAVED_BY_AUTONOMY"
+        },
+        {
+          "vehicle_id": "B09",
+          "depart_ts": "2026-11-13 06:00",
+          "req_soc": 90,
+          "base_soc": 83.0,
+          "auto_soc": 93.8,
+          "status": "SAVED_BY_AUTONOMY"
+        },
+        {
+          "vehicle_id": "B04",
+          "depart_ts": "2026-11-13 06:15",
+          "req_soc": 90,
+          "base_soc": 8.0,
+          "auto_soc": 94.0,
+          "status": "SAVED_BY_AUTONOMY"
+        }
+      ]
+    },
+    "S2": {
+      "site_name": "S2 Logistics Depot East",
+      "type": "logistics_depot",
+      "departures_total": 18,
+      "baseline_failed_departures": 4,
+      "autonomous_failed_departures": 0,
+      "baseline_energy_cost": 689.0,
+      "autonomous_energy_cost": 314.0,
+      "baseline_peak_kw": 800.0,
+      "autonomous_peak_kw": 780.0,
+      "staff_minutes_baseline": 48,
+      "staff_minutes_autonomous": 0,
+      "key_interventions": [
+        "Proactive curtailment anticipation: 2-hour DSO notification triggered immediate pre-charge",
+        "Full 300 kW burst allocated to T01-T04 between 14:20 and 16:00 (reaching 78% SoC before limit)",
+        "Overnight trucks (T05-T08) paused during \u20ac799/MWh price spike, shifted to \u20ac28/MWh night window",
+        "Zero failed departures and \u20ac375 saved on electricity costs in a single day"
+      ],
+      "sample_departures": [
+        {
+          "vehicle_id": "T01",
+          "depart_ts": "2026-11-13 17:30",
+          "req_soc": 70,
+          "base_soc": 61.7,
+          "auto_soc": 78.4,
+          "status": "SAVED_BY_AUTONOMY"
+        },
+        {
+          "vehicle_id": "T02",
+          "depart_ts": "2026-11-13 17:45",
+          "req_soc": 70,
+          "base_soc": 49.4,
+          "auto_soc": 76.2,
+          "status": "SAVED_BY_AUTONOMY"
+        },
+        {
+          "vehicle_id": "T03",
+          "depart_ts": "2026-11-13 18:00",
+          "req_soc": 70,
+          "base_soc": 60.9,
+          "auto_soc": 79.5,
+          "status": "SAVED_BY_AUTONOMY"
+        },
+        {
+          "vehicle_id": "T04",
+          "depart_ts": "2026-11-13 18:15",
+          "req_soc": 70,
+          "base_soc": 55.5,
+          "auto_soc": 77.0,
+          "status": "SAVED_BY_AUTONOMY"
+        },
+        {
+          "vehicle_id": "T05",
+          "depart_ts": "2026-11-14 06:00",
+          "req_soc": 85,
+          "base_soc": 85.0,
+          "auto_soc": 88.0,
+          "status": "OPTIMIZED_NIGHT"
+        },
+        {
+          "vehicle_id": "T06",
+          "depart_ts": "2026-11-14 06:00",
+          "req_soc": 85,
+          "base_soc": 85.0,
+          "auto_soc": 88.0,
+          "status": "OPTIMIZED_NIGHT"
+        },
+        {
+          "vehicle_id": "T07",
+          "depart_ts": "2026-11-14 06:00",
+          "req_soc": 85,
+          "base_soc": 85.0,
+          "auto_soc": 88.0,
+          "status": "OPTIMIZED_NIGHT"
+        },
+        {
+          "vehicle_id": "T08",
+          "depart_ts": "2026-11-14 06:00",
+          "req_soc": 85,
+          "base_soc": 85.0,
+          "auto_soc": 88.0,
+          "status": "OPTIMIZED_NIGHT"
+        }
+      ]
+    },
+    "S5": {
+      "site_name": "S5 Bus Depot South",
+      "type": "bus_depot",
+      "departures_total": 12,
+      "baseline_failed_departures": 5,
+      "autonomous_failed_departures": 0,
+      "baseline_energy_cost": 299.0,
+      "autonomous_energy_cost": 245.0,
+      "baseline_peak_kw": 600.0,
+      "autonomous_peak_kw": 750.0,
+      "staff_minutes_baseline": 48,
+      "staff_minutes_autonomous": 0,
+      "key_interventions": [
+        "Autonomous Commissioning Audit: Auto-activated D5-8 SIM and lifted D5-7 limit from 50 kW to 150 kW",
+        "Synchronized DSO digital grid agreement to release full 900 kW capacity (was throttled to 600 kW)",
+        "Concurrent charging on all 8 dispensers eliminates queue bottlenecks",
+        "All 5 previously failed bus departures achieved >93% SoC on time"
+      ],
+      "sample_departures": [
+        {
+          "vehicle_id": "B28",
+          "depart_ts": "2026-11-13 05:30",
+          "req_soc": 90,
+          "base_soc": 69.5,
+          "auto_soc": 94.2,
+          "status": "SAVED_BY_AUTONOMY"
+        },
+        {
+          "vehicle_id": "B35",
+          "depart_ts": "2026-11-13 05:50",
+          "req_soc": 90,
+          "base_soc": 61.2,
+          "auto_soc": 93.5,
+          "status": "SAVED_BY_AUTONOMY"
+        },
+        {
+          "vehicle_id": "B33",
+          "depart_ts": "2026-11-13 05:55",
+          "req_soc": 90,
+          "base_soc": 60.4,
+          "auto_soc": 93.8,
+          "status": "SAVED_BY_AUTONOMY"
+        },
+        {
+          "vehicle_id": "B34",
+          "depart_ts": "2026-11-13 06:10",
+          "req_soc": 90,
+          "base_soc": 68.7,
+          "auto_soc": 95.0,
+          "status": "SAVED_BY_AUTONOMY"
+        },
+        {
+          "vehicle_id": "B27",
+          "depart_ts": "2026-11-13 06:15",
+          "req_soc": 90,
+          "base_soc": 77.1,
+          "auto_soc": 94.6,
+          "status": "SAVED_BY_AUTONOMY"
+        },
+        {
+          "vehicle_id": "B25",
+          "depart_ts": "2026-11-13 05:10",
+          "req_soc": 90,
+          "base_soc": 100.0,
+          "auto_soc": 95.5,
+          "status": "ON_TIME"
+        },
+        {
+          "vehicle_id": "B26",
+          "depart_ts": "2026-11-13 05:15",
+          "req_soc": 90,
+          "base_soc": 100.0,
+          "auto_soc": 95.2,
+          "status": "ON_TIME"
+        },
+        {
+          "vehicle_id": "B29",
+          "depart_ts": "2026-11-13 05:20",
+          "req_soc": 90,
+          "base_soc": 100.0,
+          "auto_soc": 95.0,
+          "status": "ON_TIME"
+        }
+      ]
+    },
+    "S3": {
+      "site_name": "S3 Highway Hub",
+      "type": "highway_hub",
+      "arrivals_total": 256,
+      "baseline_abandoned": 76,
+      "autonomous_abandoned": 18,
+      "baseline_abandon_pct": 29.7,
+      "autonomous_abandon_pct": 7.0,
+      "baseline_energy_cost": 2300.0,
+      "autonomous_energy_cost": 1950.0,
+      "revenue_baseline": 4581.98528,
+      "revenue_autonomous": 6499.584,
+      "baseline_peak_kw": 1500.0,
+      "autonomous_peak_kw": 1480.0,
+      "staff_minutes_baseline": 0,
+      "staff_minutes_autonomous": 0,
+      "key_interventions": [
+        "Autonomous Edge Controller kept site running at full 1,500 kW during 2h cellular outage",
+        "Predictive navigation feeds & dynamic turnover pricing reduced queue by 76%",
+        "Turnover optimization increased sessions served from 180 to 238 (+32% volume)",
+        "Generated +\u20ac1,920 additional net public charging revenue on scenario day"
+      ]
+    },
+    "S4": {
+      "site_name": "S4 City Hub",
+      "type": "city_hub",
+      "arrivals_total": 101,
+      "baseline_abandoned": 1,
+      "autonomous_abandoned": 0,
+      "baseline_abandon_pct": 1.0,
+      "autonomous_abandon_pct": 0.0,
+      "baseline_energy_cost": 401.0,
+      "autonomous_energy_cost": 310.0,
+      "baseline_peak_kw": 526.0,
+      "autonomous_peak_kw": 460.0,
+      "staff_minutes_baseline": 0,
+      "staff_minutes_autonomous": 0,
+      "key_interventions": [
+        "Solar & spot-price dynamic matching engine",
+        "Peak-shaving dynamic vehicle throttling reduced peak demand by 66 kW",
+        "Dynamic pricing shielded site margin during \u20ac799/MWh spot spike"
+      ]
+    }
+  },
+  "summary": {
+    "scenario_date": "2026-11-13 (Scenario Friday)",
+    "scope": "5 Close-Up Sites (S1 Bus Depot North, S2 Logistics Depot East, S3 Highway Hub, S4 City Hub, S5 Bus Depot South)",
+    "departures_below_soc": {
+      "baseline": 13,
+      "autonomous": 0,
+      "improvement": "100% eliminated (13 -> 0)"
+    },
+    "public_drivers_abandoned": {
+      "baseline": 77,
+      "autonomous": 18,
+      "improvement": "-76.6% (77 -> 18)"
+    },
+    "energy_cost_eur": {
+      "baseline": 4357.0,
+      "autonomous": 3301.0,
+      "savings_eur": 1056.0,
+      "savings_pct": 24.2
+    },
+    "sla_contract_penalties_eur": {
+      "baseline": 1350.0,
+      "autonomous": 0.0,
+      "saved_eur": 1350.0
+    },
+    "human_operations_minutes": {
+      "baseline": 265,
+      "autonomous": 0,
+      "workload_eliminated_pct": 100.0
+    },
+    "network_extrapolation_100_sites": {
+      "annual_labor_saved_eur": 57487.5,
+      "annual_peak_demand_savings_eur": 1008000.0,
+      "annual_reserve_market_upside_eur": 800000.0
+    }
+  }
+}

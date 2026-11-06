@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scenario Day Baseline (BEFORE) — Kempower Hackathon</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card: #161b22;
+      --border: #30363d;
+      --border-subtle: #21262d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --red: #f85149;
+      --amber: #d29922;
+      --purple: #bc8cff;
+      --green-bg: rgba(63, 185, 80, 0.15);
+      --red-bg: rgba(248, 81, 73, 0.15);
+      --accent-bg: rgba(56, 139, 253, 0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    header h1 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    header h1 span { color: var(--text-muted); font-weight: 400; }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .badge-red { background: var(--red-bg); color: var(--red); border: 1px solid rgba(248, 81, 73, 0.3); }
+    .badge-mode { background: #21262d; color: var(--text-muted); border: 1px solid var(--border); }
+
+    .nav-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+
+    .nav-toggle-btn.active {
+      background: var(--red-bg);
+      color: var(--red);
+      border: 1px solid rgba(248, 81, 73, 0.4);
+    }
+
+    .nav-toggle-btn.switch {
+      background: #21262d;
+      color: var(--green);
+      border: 1px solid var(--border);
+    }
+
+    .nav-toggle-btn.switch:hover {
+      background: var(--green-bg);
+      border-color: rgba(63, 185, 80, 0.4);
+    }
+
+    .container { max-width: 1140px; margin: 0 auto; padding: 24px; }
+
+    /* KPI ROW */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .kpi-card.alert-border {
+      border-color: rgba(248, 81, 73, 0.35);
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--red);
+    }
+
+    .kpi-baseline {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .kpi-change {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .kpi-change.bad { background: var(--red-bg); color: var(--red); border: 1px solid rgba(248, 81, 73, 0.25); }
+
+    /* SECTION CARDS */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* TIMELINE */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 14px;
+    }
+
+    .event-card {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px;
+      cursor: pointer;
+      transition: border-color 0.15s, background-color 0.15s;
+    }
+
+    .event-card:hover {
+      border-color: var(--red);
+      background: #161b22;
+    }
+
+    .event-time {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--red);
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+
+    .event-site {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .event-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 4px 0;
+      color: var(--text);
+    }
+
+    .event-failure-box {
+      font-size: 12px;
+      color: var(--red);
+      background: var(--red-bg);
+      border-radius: 4px;
+      padding: 6px 8px;
+      margin-top: 8px;
+      border: 1px solid rgba(248, 81, 73, 0.25);
+    }
+
+    .event-human-impact {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* TABS */
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: #21262d;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .tab-btn:hover { background: #30363d; color: var(--text); }
+    .tab-btn.active {
+      background: var(--red);
+      color: #0d1117;
+      font-weight: 600;
+      border-color: var(--red);
+    }
+
+    .tab-pane { display: none; margin-top: 16px; }
+    .tab-pane.active { display: block; }
+
+    /* TABLES */
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th {
+      text-align: left;
+      padding: 8px 10px;
+      color: var(--text-muted);
+      font-weight: 500;
+      border-bottom: 2px solid var(--border);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    tr.fail-row { background: rgba(248, 81, 73, 0.10); }
+
+    .val-fail { color: var(--red); font-weight: 700; }
+    .val-neutral { color: var(--text-muted); }
+
+    /* SIDE PANEL */
+    .split-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .split-grid { grid-template-columns: 1fr; }
+    }
+
+    .sidebar-box {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px;
+    }
+
+    .sidebar-box h3 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--red);
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 12px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .fail-mark { color: var(--red); font-weight: 700; flex-shrink: 0; }
+
+    /* BOTTOM SECTION */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .bottom-grid { grid-template-columns: 1fr; }
+    }
+
+    .revenue-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .revenue-box {
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #0d1117;
+    }
+
+    .revenue-box .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: var(--text-muted);
+    }
+
+    .revenue-box .amount {
+      font-size: 22px;
+      font-weight: 700;
+      margin-top: 4px;
+      color: var(--red);
+    }
+
+    .revenue-box .desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .sla-item {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 12px;
+    }
+
+    .sla-item:last-child { border-bottom: none; }
+
+    .sla-item strong { display: block; margin-bottom: 2px; }
+
+    .total-bar {
+      margin-top: 14px;
+      padding: 12px 16px;
+      background: var(--red-bg);
+      border: 1px solid rgba(248, 81, 73, 0.35);
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .total-bar .amount { color: var(--red); font-size: 18px; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>Scenario Day Results <span>— Fri 13 Nov 2026 (BEFORE: Baseline)</span></h1>
+    </div>
+    <div class="header-actions">
+      <span class="nav-toggle-btn active">● BEFORE (Human Baseline)</span>
+      <a href="dashboard_dark_mode.html" class="nav-toggle-btn switch">AFTER (Autonomous System) &rarr;</a>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- KPI ROW (BEFORE: ALL IN RED) -->
+    <div class="kpi-row">
+      
+      <!-- Card 1: Failed Departures -->
+      <div class="kpi-card alert-border">
+        <div class="kpi-label">FAILED DEPARTURES</div>
+        <div class="kpi-value">13</div>
+        <div class="kpi-baseline">Baseline: 13 buses/trucks</div>
+        <div class="kpi-change bad">Critical SLA Breach</div>
+      </div>
+
+      <!-- Card 2: S3 Abandoned Drivers -->
+      <div class="kpi-card alert-border">
+        <div class="kpi-label">S3 ABANDONED DRIVERS</div>
+        <div class="kpi-value">76</div>
+        <div class="kpi-baseline">Baseline: 76 (29.7%)</div>
+        <div class="kpi-change bad">29.7% Queue Loss</div>
+      </div>
+
+      <!-- Card 3: Energy Cost -->
+      <div class="kpi-card alert-border">
+        <div class="kpi-label">ENERGY COST (ALL SITES)</div>
+        <div class="kpi-value">&euro;4,357</div>
+        <div class="kpi-baseline">Baseline: &euro;4,357</div>
+        <div class="kpi-change bad">+&euro;1,056 Unmanaged Spike</div>
+      </div>
+
+      <!-- Card 4: Manual Staff Time -->
+      <div class="kpi-card alert-border">
+        <div class="kpi-label">MANUAL STAFF TIME</div>
+        <div class="kpi-value">265 min</div>
+        <div class="kpi-baseline">Baseline: 265 min</div>
+        <div class="kpi-change bad">4.4 Hours in -14&deg;C Cold</div>
+      </div>
+
+      <!-- Card 5: SLA Penalties -->
+      <div class="kpi-card alert-border">
+        <div class="kpi-label">SLA PENALTIES (C1)</div>
+        <div class="kpi-value">&euro;1,350</div>
+        <div class="kpi-baseline">Baseline: &euro;1,350</div>
+        <div class="kpi-change bad">Transit Fines Incurred</div>
+      </div>
+
+    </div>
+
+    <!-- TIMELINE (HUMAN BASELINE BREAKDOWNS) -->
+    <div class="card">
+      <h2>Scenario Day Timeline — What Happened With Humans in the Loop</h2>
+      <p style="font-size:12px;color:var(--text-muted);margin:-8px 0 14px">Four simultaneous operational breakdowns on Friday 13 Nov. Click any card to inspect site details below.</p>
+
+      <div class="events-grid">
+        <div class="event-card" onclick="switchTab('s1')">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="event-time">01:50 &ndash; 06:30</span>
+            <span class="event-site">SITE S1</span>
+          </div>
+          <div class="event-title">Cabinet C1-3 Fan Fails at -14&deg;C</div>
+          <div class="event-failure-box"><b>Baseline Failure:</b> 4 dispensers dead. 9 manual bus moves in the snow. 3 buses leave depot with only 8% battery.</div>
+          <div class="event-human-impact">Routes canceled, commuters stranded, &euro;600 in municipal penalties.</div>
+        </div>
+
+        <div class="event-card" onclick="switchTab('s5')">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="event-time">05:30 &ndash; 06:15</span>
+            <span class="event-site">SITE S5</span>
+          </div>
+          <div class="event-title">Commissioning Defects Go Unnoticed</div>
+          <div class="event-failure-box"><b>Baseline Failure:</b> Dispenser D5-8 inactive, D5-7 throttled to 50 kW, wrong 600 kW grid limit.</div>
+          <div class="event-human-impact">5 buses depart below required SoC (60&ndash;77%). Another &euro;750 in SLA penalties.</div>
+        </div>
+
+        <div class="event-card" onclick="switchTab('s3')">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="event-time">11:00 &ndash; 13:00</span>
+            <span class="event-site">SITE S3</span>
+          </div>
+          <div class="event-title">2-Hour Cellular Outage &amp; Throttling</div>
+          <div class="event-failure-box"><b>Baseline Failure:</b> Chargers crippled to 50 kW fallback. Massive highway queue forms.</div>
+          <div class="event-human-impact">76 frustrated drivers abandon the station (29.7% failure rate). Over &euro;1,900 in lost revenue.</div>
+        </div>
+
+        <div class="event-card" onclick="switchTab('s2')">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="event-time">16:00 &ndash; 19:00</span>
+            <span class="event-site">SITE S2</span>
+          </div>
+          <div class="event-title">DSO 400 kW Cap + &euro;799 Spot Price Spike</div>
+          <div class="event-failure-box"><b>Baseline Failure:</b> Human operator throttles all trucks equally without departure prioritization.</div>
+          <div class="event-human-impact">4 short-turn trucks miss departure SoC (T01&ndash;T04). Overnight trucks charged at &euro;799/MWh.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SITE DETAIL TABS -->
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)">
+        <h2 style="border:none;margin:0;padding:0">Site Failure Breakdown (Baseline)</h2>
+        <div class="tab-bar">
+          <button class="tab-btn active" onclick="switchTab('s1')" id="tab-btn-s1">S1 &mdash; Bus Depot North</button>
+          <button class="tab-btn" onclick="switchTab('s2')" id="tab-btn-s2">S2 &mdash; Logistics East</button>
+          <button class="tab-btn" onclick="switchTab('s3')" id="tab-btn-s3">S3 &mdash; Highway Hub</button>
+          <button class="tab-btn" onclick="switchTab('s5')" id="tab-btn-s5">S5 &mdash; Bus Depot South</button>
+        </div>
+      </div>
+
+      <!-- S1 -->
+      <div id="tab-s1" class="tab-pane active">
+        <div class="split-grid">
+          <div>
+            <h3 style="font-size:14px;margin-bottom:10px;color:var(--red)">S1 Morning Departures &mdash; Human Baseline</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Vehicle</th>
+                  <th>Departs</th>
+                  <th>Required SoC</th>
+                  <th>Baseline SoC</th>
+                  <th>Outcome</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="fail-row">
+                  <td><b>B18</b></td>
+                  <td>05:35</td>
+                  <td>90%</td>
+                  <td class="val-fail">8.0%</td>
+                  <td class="val-fail">Died on ring road &mdash; Route 4 canceled</td>
+                </tr>
+                <tr class="fail-row">
+                  <td><b>B20</b></td>
+                  <td>05:35</td>
+                  <td>90%</td>
+                  <td class="val-fail">8.0%</td>
+                  <td class="val-fail">Died on ring road &mdash; Hospital route canceled</td>
+                </tr>
+                <tr class="fail-row">
+                  <td><b>B09</b></td>
+                  <td>06:00</td>
+                  <td>90%</td>
+                  <td class="val-fail">83.0%</td>
+                  <td class="val-fail">Departed below contracted 90% threshold</td>
+                </tr>
+                <tr class="fail-row">
+                  <td><b>B04</b></td>
+                  <td>06:15</td>
+                  <td>90%</td>
+                  <td class="val-fail">8.0%</td>
+                  <td class="val-fail">Failed departure &mdash; stranded in yard</td>
+                </tr>
+                <tr>
+                  <td>B10, B11, B23, B24</td>
+                  <td>05:10&ndash;05:25</td>
+                  <td>90%</td>
+                  <td class="val-neutral">100.0%</td>
+                  <td class="val-neutral">Departed prior to C1-3 total cutoff</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="sidebar-box">
+            <h3>Human Workload &amp; Friction</h3>
+            <div class="check-item"><span class="fail-mark">&times;</span><span><b>03:12 AM Call:</b> Night supervisor phoned fleet director in panic.</span></div>
+            <div class="check-item"><span class="fail-mark">&times;</span><span><b>9 Manual Replugs:</b> Staff physically moved heavy 18-ton buses in blizzard.</span></div>
+            <div class="check-item"><span class="fail-mark">&times;</span><span><b>97 min Travel:</b> Technician dispatched through snowstorm arrived too late.</span></div>
+            <div class="check-item"><span class="fail-mark">&times;</span><span><b>&euro;600 SLA Fines:</b> Incurred directly for morning route cancellations.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S2 -->
+      <div id="tab-s2" class="tab-pane">
+        <div class="split-grid">
+          <div>
+            <h3 style="font-size:14px;margin-bottom:10px;color:var(--red)">S2 Truck Departures &mdash; Human Operator Under Curtailment</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Truck ID</th>
+                  <th>Arrives</th>
+                  <th>Departs</th>
+                  <th>Required SoC</th>
+                  <th>Baseline Got</th>
+                  <th>Outcome</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="fail-row">
+                  <td><b>T01</b></td>
+                  <td>14:25</td>
+                  <td>17:30</td>
+                  <td>70%</td>
+                  <td class="val-fail">61.7%</td>
+                  <td class="val-fail">Missed departure SoC &mdash; delivery delayed</td>
+                </tr>
+                <tr class="fail-row">
+                  <td><b>T02</b></td>
+                  <td>14:45</td>
+                  <td>17:45</td>
+                  <td>70%</td>
+                  <td class="val-fail">49.4%</td>
+                  <td class="val-fail">Missed departure SoC &mdash; route compromised</td>
+                </tr>
+                <tr class="fail-row">
+                  <td><b>T03</b></td>
+                  <td>14:20</td>
+                  <td>18:00</td>
+                  <td>70%</td>
+                  <td class="val-fail">60.9%</td>
+                  <td class="val-fail">Missed departure SoC &mdash; cargo delayed</td>
+                </tr>
+                <tr class="fail-row">
+                  <td><b>T04</b></td>
+                  <td>14:45</td>
+                  <td>18:15</td>
+                  <td>70%</td>
+                  <td class="val-fail">55.5%</td>
+                  <td class="val-fail">Missed departure SoC &mdash; distribution late</td>
+                </tr>
+                <tr>
+                  <td>T05&ndash;T08</td>
+                  <td>14:30</td>
+                  <td>06:00 +1</td>
+                  <td>85%</td>
+                  <td class="val-neutral">85.0%</td>
+                  <td class="val-fail">Charged during &euro;799/MWh peak window!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="sidebar-box">
+            <h3>Operator Mistakes</h3>
+            <div class="check-item"><span class="fail-mark">&times;</span><span><b>Equal Power Sharing:</b> Human operator dialed back all chargers equally instead of prioritizing departing vehicles.</span></div>
+            <div class="check-item"><span class="fail-mark">&times;</span><span><b>Price Blindness:</b> Allowed overnight trucks staying until 06:00 tomorrow to charge during the &euro;799.30 price spike.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S3 -->
+      <div id="tab-s3" class="tab-pane">
+        <div class="split-grid">
+          <div>
+            <h3 style="font-size:14px;margin-bottom:10px;color:var(--red)">S3 Highway Hub &mdash; Queue Chaos</h3>
+            <div style="background:#0d1117;border:1px solid rgba(248,81,73,0.3);border-radius:6px;padding:16px;text-align:center">
+              <div style="font-size:11px;text-transform:uppercase;color:var(--red);font-weight:600">Total Lost Public Drivers</div>
+              <div style="font-size:32px;font-weight:700;color:var(--red);margin:6px 0">76 Abandoned Vehicles</div>
+              <p style="font-size:12px;color:var(--text-muted)">62 drivers pulled into full stalls and left immediately; 14 entered the queue and drove away after waiting over 25 minutes.</p>
+            </div>
+          </div>
+
+          <div class="sidebar-box">
+            <h3>Root Causes</h3>
+            <div class="check-item"><span class="fail-mark">&times;</span><span><b>D3-3 Down 5 Days:</b> Dispenser offline awaiting spare part.</span></div>
+            <div class="check-item"><span class="fail-mark">&times;</span><span><b>50 kW Throttling:</b> Cellular outage forced chargers into safe but crippled fallback mode.</span></div>
+            <div class="check-item"><span class="fail-mark">&times;</span><span><b>No In-Car Data:</b> Drivers arrived blind with zero queue forewarning.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S5 -->
+      <div id="tab-s5" class="tab-pane">
+        <div class="split-grid">
+          <div>
+            <h3 style="font-size:14px;margin-bottom:10px;color:var(--red)">S5 Bus Depot South &mdash; Commissioning Failures</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Vehicle</th>
+                  <th>Departs</th>
+                  <th>Required SoC</th>
+                  <th>Baseline SoC</th>
+                  <th>Defect Cause</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="fail-row">
+                  <td><b>B28</b></td>
+                  <td>06:00</td>
+                  <td>90%</td>
+                  <td class="val-fail">62.0%</td>
+                  <td class="val-fail">D5-8 inactive; had to queue</td>
+                </tr>
+                <tr class="fail-row">
+                  <td><b>B35</b></td>
+                  <td>06:10</td>
+                  <td>90%</td>
+                  <td class="val-fail">65.5%</td>
+                  <td class="val-fail">D5-7 throttled to 50 kW</td>
+                </tr>
+                <tr class="fail-row">
+                  <td><b>B33</b></td>
+                  <td>06:20</td>
+                  <td>90%</td>
+                  <td class="val-fail">71.0%</td>
+                  <td class="val-fail">Site grid capped at 600 kW</td>
+                </tr>
+                <tr class="fail-row">
+                  <td><b>B34</b></td>
+                  <td>06:30</td>
+                  <td>90%</td>
+                  <td class="val-fail">74.5%</td>
+                  <td class="val-fail">Insufficient site power throughput</td>
+                </tr>
+                <tr class="fail-row">
+                  <td><b>B27</b></td>
+                  <td>06:45</td>
+                  <td>90%</td>
+                  <td class="val-fail">77.0%</td>
+                  <td class="val-fail">Batch 2 missed turnaround window</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="sidebar-box">
+            <h3>Configuration Mistakes</h3>
+            <div class="check-item"><span class="fail-mark">&times;</span><span><b>Copied S1 Template:</b> Installer copied older S1 parameters blindly.</span></div>
+            <div class="check-item"><span class="fail-mark">&times;</span><span><b>Unactivated SIM:</b> Dispenser D5-8 went live completely disconnected.</span></div>
+            <div class="check-item"><span class="fail-mark">&times;</span><span><b>&euro;750 Fines:</b> Transit authority billed 5 x &euro;150 departure penalties.</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM SECTION: FINANCIAL LOSS SUMMARY -->
+    <div class="bottom-grid">
+      <div class="card">
+        <h2>Financial Impact of Human Inefficiencies</h2>
+        <div class="sla-item">
+          <strong style="color:var(--red)">Transit SLA Penalties Incurred</strong>
+          &euro;1,350 directly deducted by the City Transit Authority (&euro;600 at Depot S1 + &euro;750 at Depot S5).
+        </div>
+        <div class="sla-item">
+          <strong style="color:var(--red)">Peak Electricity Exposure</strong>
+          &euro;1,056 wasted by failing to pause non-urgent trucks during the 18:00 &euro;799/MWh price spike.
+        </div>
+        <div class="sla-item">
+          <strong style="color:var(--red)">Lost Public Charging Margin</strong>
+          Over &euro;1,920 in margin surrendered due to 76 highway drivers abandoning long queues.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Network-Wide Waste Projection (100 Sites)</h2>
+        <div class="revenue-grid">
+          <div class="revenue-box">
+            <div class="label">Annual Manual Labor Cost</div>
+            <div class="amount">&euro;584k</div>
+            <div class="desc">Night staff replugging &amp; resets</div>
+          </div>
+          <div class="revenue-box">
+            <div class="label">Annual Peak Demand Fees</div>
+            <div class="amount">&euro;1,008k</div>
+            <div class="desc">Unmanaged simultaneous peaks</div>
+          </div>
+          <div class="revenue-box">
+            <div class="label">Forfeited Grid Revenues</div>
+            <div class="amount">&euro;820k</div>
+            <div class="desc">Zero FCR-D flexibility bidding</div>
+          </div>
+          <div class="revenue-box">
+            <div class="label">Lost Public Charging Sales</div>
+            <div class="amount">&euro;1,450k</div>
+            <div class="desc">Queue churn across corridor hubs</div>
+          </div>
+        </div>
+        <div class="total-bar">
+          <span>Annual Human Overhead &amp; Loss:</span>
+          <span class="amount">&euro;3.86M / year</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Kempower Challenge &middot; LahtiES Energy Tech Hackathon 2026 &middot; Scenario Day Baseline Simulation (BEFORE: Human in the Loop)
+  </footer>
+
+  <script>
+    function switchTab(siteId) {
+      document.querySelectorAll('.tab-pane').forEach(function(el) { el.classList.remove('active'); });
+      document.getElementById('tab-' + siteId).classList.add('active');
+
+      ['s1', 's2', 's3', 's5'].forEach(function(id) {
+        var btn = document.getElementById('tab-btn-' + id);
+        btn.classList.toggle('active', id === siteId);
+      });
+    }
+  </script>
+
+</body>
+</html>
